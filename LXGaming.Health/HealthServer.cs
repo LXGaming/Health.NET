@@ -10,7 +10,7 @@ namespace LXGaming.Health {
         private static readonly byte[] HealthyBuffer = {Healthy};
         private static readonly byte[] UnhealthyBuffer = {Unhealthy};
 
-        protected HealthServer(ILogger<Health> logger, EndPoint endPoint) : base(logger, endPoint) {
+        protected HealthServer(ILogger<HealthServer> logger, EndPoint endPoint) : base(logger, endPoint) {
         }
 
         public override void Start() {

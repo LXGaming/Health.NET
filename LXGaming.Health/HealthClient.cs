@@ -9,7 +9,7 @@ namespace LXGaming.Health {
 
         private readonly byte[] _buffer = new byte[1];
 
-        public HealthClient(ILogger<Health> logger, EndPoint endPoint) : base(logger, endPoint) {
+        public HealthClient(ILogger<HealthClient> logger, EndPoint endPoint) : base(logger, endPoint) {
         }
 
         public override void Start() {

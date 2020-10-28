@@ -8,9 +8,9 @@ namespace LXGaming.Health.Server {
 
     public static class Program {
 
-        private static readonly ILogger<Health> Logger = LoggerFactory.Create(builder => {
+        private static readonly ILogger<HealthServer> Logger = LoggerFactory.Create(builder => {
             builder.AddConsole();
-        }).CreateLogger<Health>();
+        }).CreateLogger<HealthServer>();
 
         public static int Main(string[] args) {
             return Parser.Default.ParseArguments<Options>(args).MapResult(Success, Failure);
