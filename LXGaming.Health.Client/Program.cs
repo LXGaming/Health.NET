@@ -35,7 +35,7 @@ namespace LXGaming.Health.Client {
                 return 1;
             }
 
-            Logger.LogInformation("Connected to {Endpoint}", endPoint);
+            // Logger.LogInformation("Connected to {Endpoint}", endPoint);
 
             try {
                 return client.GetStatus() ? 0 : 1;
