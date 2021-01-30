@@ -35,7 +35,7 @@ namespace LXGaming.Health.Server {
                 return 1;
             }
 
-            Logger.LogInformation("Listening on {Endpoint}", endPoint);
+            Logger.LogInformation("Listening on {Endpoint}", endPoint.ToString());
 
             try {
                 Logger.LogInformation("Press Enter to continue...");
