@@ -12,6 +12,7 @@ namespace LXGaming.Health {
         protected readonly ILogger<Health> Logger;
         protected readonly EndPoint EndPoint;
         protected readonly Socket Socket;
+        protected volatile bool Disposed;
 
         protected Health(ILogger<Health> logger, EndPoint endPoint) {
             Logger = logger;
