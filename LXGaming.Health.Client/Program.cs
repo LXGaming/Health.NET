@@ -6,9 +6,9 @@ namespace LXGaming.Health.Client;
 
 public static class Program {
 
-    private static readonly ILogger<HealthClient> Logger = LoggerFactory.Create(builder => {
+    private static readonly ILogger<Client> Logger = LoggerFactory.Create(builder => {
         builder.AddConsole();
-    }).CreateLogger<HealthClient>();
+    }).CreateLogger<Client>();
 
     public static int Main(string[] args) {
         return Parser.Default.ParseArguments<Options>(args).MapResult(Success, Failure);
@@ -26,7 +26,7 @@ public static class Program {
 
         HealthClient client;
         try {
-            client = new HealthClient(Logger, endPoint);
+            client = new Client(Logger, endPoint);
             client.Start();
         } catch (Exception ex) {
             Logger.LogError(ex, "Encountered an error while starting client");

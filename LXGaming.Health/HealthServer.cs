@@ -61,7 +61,7 @@ namespace LXGaming.Health {
             try {
                 client.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, SendCallback, client);
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while beginning send to {Client}", client.RemoteEndPoint);
+                Logger.LogError(ex, "Encountered an error while beginning send to {Client}", client.RemoteEndPoint.ToString());
             }
         }
 
@@ -75,14 +75,14 @@ namespace LXGaming.Health {
             try {
                 client.EndSend(result);
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while ending send to {Client}", client.RemoteEndPoint);
+                Logger.LogError(ex, "Encountered an error while ending send to {Client}", client.RemoteEndPoint.ToString());
             }
 
             try {
                 client.Shutdown(SocketShutdown.Both);
                 client.Close();
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while closing {Client}", client.RemoteEndPoint);
+                Logger.LogError(ex, "Encountered an error while closing {Client}", client.RemoteEndPoint.ToString());
             }
         }
     }

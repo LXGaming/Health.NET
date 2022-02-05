@@ -5,11 +5,11 @@ using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
 
-    public class HealthClient : Health {
+    public abstract class HealthClient : Health {
 
         private readonly byte[] _buffer = new byte[1];
 
-        public HealthClient(ILogger<HealthClient> logger, EndPoint endPoint) : base(logger, endPoint) {
+        protected HealthClient(ILogger<HealthClient> logger, EndPoint endPoint) : base(logger, endPoint) {
         }
 
         public override void Start() {
