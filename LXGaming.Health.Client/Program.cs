@@ -42,7 +42,7 @@ public static class Program {
             return 1;
         } finally {
             try {
-                client.Shutdown();
+                client.Stop();
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while shutting down client");
             }

@@ -16,11 +16,7 @@ namespace LXGaming.Health {
             Socket.Connect(EndPoint);
         }
 
-        public Task StartAsync() {
-            return Socket.ConnectAsync(EndPoint);
-        }
-
-        public override void Shutdown() {
+        public override void Stop() {
             Disposed = true;
             Socket.Shutdown(SocketShutdown.Both);
             Socket.Close();

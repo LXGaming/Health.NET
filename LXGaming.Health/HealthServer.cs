@@ -19,7 +19,7 @@ namespace LXGaming.Health {
             Socket.BeginAccept(AcceptCallback, Socket);
         }
 
-        public override void Shutdown() {
+        public override void Stop() {
             Disposed = true;
             Socket.Close();
         }

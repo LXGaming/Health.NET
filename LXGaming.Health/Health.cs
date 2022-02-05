@@ -22,7 +22,7 @@ namespace LXGaming.Health {
 
         public abstract void Start();
 
-        public abstract void Shutdown();
+        public abstract void Stop();
 
         public abstract bool GetStatus();
     }
