@@ -3,6 +3,7 @@ ARG TARGETPLATFORM
 WORKDIR /src
 
 COPY *.sln .
+COPY *.props .
 COPY LXGaming.Health/*.csproj ./LXGaming.Health/
 COPY LXGaming.Health.Client/*.csproj ./LXGaming.Health.Client/
 RUN case "$TARGETPLATFORM" in \
