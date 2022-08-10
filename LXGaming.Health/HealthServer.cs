@@ -20,15 +20,10 @@ namespace LXGaming.Health {
         }
 
         public override void Stop() {
-            Disposed = true;
             Socket.Close();
         }
 
         private void AcceptCallback(IAsyncResult result) {
-            if (Disposed) {
-                return;
-            }
-
             var server = (Socket) result.AsyncState;
             if (server == null) {
                 Logger.LogError("Server is unavailable");

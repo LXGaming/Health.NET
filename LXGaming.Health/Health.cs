@@ -1,10 +1,11 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Sockets;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
 
-    public abstract class Health {
+    public abstract class Health : IDisposable {
 
         protected const byte Healthy = 0;
         protected const byte Unhealthy = 1;
@@ -12,7 +13,7 @@ namespace LXGaming.Health {
         protected readonly ILogger<Health> Logger;
         protected readonly EndPoint EndPoint;
         protected readonly Socket Socket;
-        protected volatile bool Disposed;
+        private bool _disposed;
 
         protected Health(ILogger<Health> logger, EndPoint endPoint) {
             Logger = logger;
@@ -25,5 +26,22 @@ namespace LXGaming.Health {
         public abstract void Stop();
 
         public abstract bool GetStatus();
+
+        public void Dispose() {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing) {
+            if (_disposed) {
+                return;
+            }
+
+            if (disposing) {
+                Socket.Dispose();
+            }
+
+            _disposed = true;
+        }
     }
 }

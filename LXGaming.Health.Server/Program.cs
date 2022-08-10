@@ -46,6 +46,8 @@ public static class Program {
                 server.Stop();
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while shutting down server");
+            } finally {
+                server.Dispose();
             }
         }
     }

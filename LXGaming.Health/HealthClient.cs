@@ -17,7 +17,6 @@ namespace LXGaming.Health {
         }
 
         public override void Stop() {
-            Disposed = true;
             Socket.Shutdown(SocketShutdown.Both);
             Socket.Close();
         }
