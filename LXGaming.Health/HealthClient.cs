@@ -22,7 +22,10 @@ namespace LXGaming.Health {
         }
 
         public override void Stop() {
-            Socket.Shutdown(SocketShutdown.Both);
+            if (Socket.Connected) {
+                Socket.Shutdown(SocketShutdown.Both);
+            }
+
             Socket.Close();
         }
 
