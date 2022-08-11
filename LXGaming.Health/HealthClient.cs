@@ -51,7 +51,7 @@ namespace LXGaming.Health {
             try {
                 client.BeginReceive(_buffer, 0, 1, SocketFlags.None, ReceiveCallback, client);
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while beginning receive from {Server}", client.RemoteEndPoint.ToString());
+                Logger.LogError(ex, "Encountered an error while beginning receive from {Server}", (client.RemoteEndPoint ?? EndPoint).ToString());
             }
         }
 
@@ -65,13 +65,13 @@ namespace LXGaming.Health {
             try {
                 _length = client.EndReceive(result);
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while ending receive from {Server}", client.RemoteEndPoint.ToString());
+                Logger.LogError(ex, "Encountered an error while ending receive from {Server}", (client.RemoteEndPoint ?? EndPoint).ToString());
             }
 
             try {
                 client.BeginDisconnect(true, DisconnectCallback, client);
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while beginning disconnect from {Server}", client.RemoteEndPoint.ToString());
+                Logger.LogError(ex, "Encountered an error while beginning disconnect from {Server}", (client.RemoteEndPoint ?? EndPoint).ToString());
             }
         }
 
@@ -85,7 +85,7 @@ namespace LXGaming.Health {
             try {
                 client.EndDisconnect(result);
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while ending disconnect from {Server}", client.RemoteEndPoint.ToString());
+                Logger.LogError(ex, "Encountered an error while ending disconnect from {Server}", (client.RemoteEndPoint ?? EndPoint).ToString());
             } finally {
                 _event.Set();
             }
