@@ -21,7 +21,7 @@ public static class Program {
             endPoint = new IPEndPoint(address, options.Port);
         } catch (Exception ex) {
             Logger.LogError(ex, "Encountered an error while parsing {Address}:{Port}", options.Address, options.Port);
-            return 1;
+            return 3;
         }
 
         HealthClient client;
@@ -30,7 +30,7 @@ public static class Program {
             client.Start();
         } catch (Exception ex) {
             Logger.LogError(ex, "Encountered an error while starting client");
-            return 1;
+            return 3;
         }
 
         // Logger.LogInformation("Connected to {Endpoint}", endPoint);
@@ -39,7 +39,7 @@ public static class Program {
             return client.GetStatus() ? 0 : 1;
         } catch (Exception ex) {
             Logger.LogError(ex, "Encountered an error while getting status");
-            return 1;
+            return 3;
         } finally {
             try {
                 client.Stop();
@@ -52,6 +52,6 @@ public static class Program {
     }
 
     private static int Failure(IEnumerable<Error> errors) {
-        return 1;
+        return 3;
     }
 }
