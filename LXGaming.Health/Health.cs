@@ -7,8 +7,9 @@ namespace LXGaming.Health {
 
     public abstract class Health : IDisposable {
 
-        protected const byte Healthy = 0;
-        protected const byte Unhealthy = 1;
+        public const byte Healthy = 0;
+        public const byte Unhealthy = 1;
+        protected const int MaximumStringSize = 4096; // 4 KiB
 
         protected readonly ILogger<Health> Logger;
         protected readonly EndPoint EndPoint;
@@ -25,7 +26,7 @@ namespace LXGaming.Health {
 
         public abstract void Stop();
 
-        public abstract bool GetStatus();
+        public abstract (bool, string) GetStatus();
 
         public void Dispose() {
             Dispose(true);

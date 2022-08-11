@@ -8,7 +8,7 @@ public class Server : HealthServer {
     public Server(ILogger<Server> logger, EndPoint endPoint) : base(logger, endPoint) {
     }
 
-    public override bool GetStatus() {
-        return true;
+    public override (bool, string?) GetStatus() {
+        return (true, null);
     }
 }

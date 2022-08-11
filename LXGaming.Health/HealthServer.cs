@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
 
     public abstract class HealthServer : Health {
-
-        private static readonly byte[] HealthyBuffer = {Healthy};
-        private static readonly byte[] UnhealthyBuffer = {Unhealthy};
 
         protected HealthServer(ILogger<HealthServer> logger, EndPoint endPoint) : base(logger, endPoint) {
         }
@@ -45,12 +43,20 @@ namespace LXGaming.Health {
                 return;
             }
 
-            byte[] buffer;
+            (bool state, string message) status;
             try {
-                buffer = GetStatus() ? HealthyBuffer : UnhealthyBuffer;
+                status = GetStatus();
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while getting status");
-                buffer = UnhealthyBuffer;
+                status = (false, null);
+            }
+
+            CalculateEncodingLength(Encoding.UTF8, status.message, MaximumStringSize, out var characterCount, out var messageSize);
+
+            var buffer = new byte[1 + messageSize];
+            buffer[0] = status.state ? Healthy : Unhealthy;
+            if (status.message != null) {
+                Encoding.UTF8.GetBytes(status.message, 0, characterCount, buffer, 1);
             }
 
             try {
@@ -78,6 +84,18 @@ namespace LXGaming.Health {
                 client.Close();
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while closing {Client}", client.RemoteEndPoint?.ToString());
+            }
+        }
+
+        private static void CalculateEncodingLength(Encoding encoding, string @string, int maximumSize, out int index, out int size) {
+            size = 0;
+            for (index = 0; index < @string?.Length; index++) {
+                var byteCount = encoding.GetByteCount(@string, index, 1);
+                if (size + byteCount > maximumSize) {
+                    return;
+                }
+
+                size += byteCount;
             }
         }
     }

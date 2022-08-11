@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using System.Threading;
 using Microsoft.Extensions.Logging;
 
@@ -8,7 +9,7 @@ namespace LXGaming.Health {
 
     public abstract class HealthClient : Health {
 
-        private readonly byte[] _buffer = new byte[1];
+        private readonly byte[] _buffer = new byte[1 + MaximumStringSize];
         private readonly ManualResetEvent _event = new ManualResetEvent(false);
         private int _length;
         private bool _disposed;
@@ -29,9 +30,13 @@ namespace LXGaming.Health {
             Socket.Close();
         }
 
-        public override bool GetStatus() {
+        public override (bool, string) GetStatus() {
             _event.WaitOne();
-            return _length == 1 && _buffer[0] == Healthy;
+            return _length switch {
+                0 => (false, null),
+                1 => (_buffer[0] == Healthy, null),
+                _ => (_buffer[0] == Healthy, Encoding.UTF8.GetString(_buffer, 1, _length - 1))
+            };
         }
 
         private void ConnectCallback(IAsyncResult result) {
@@ -49,7 +54,7 @@ namespace LXGaming.Health {
             }
 
             try {
-                client.BeginReceive(_buffer, 0, 1, SocketFlags.None, ReceiveCallback, client);
+                client.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, ReceiveCallback, client);
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while beginning receive from {Server}", (client.RemoteEndPoint ?? EndPoint).ToString());
             }

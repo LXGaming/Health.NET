@@ -36,7 +36,9 @@ public static class Program {
         // Logger.LogInformation("Connected to {Endpoint}", endPoint);
 
         try {
-            return client.GetStatus() ? 0 : 1;
+            (bool state, string? message) status = client.GetStatus();
+            Console.Write(status.message);
+            return status.state ? Health.Healthy : Health.Unhealthy;
         } catch (Exception ex) {
             Logger.LogError(ex, "Encountered an error while getting status");
             return 3;
