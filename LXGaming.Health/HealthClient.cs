@@ -10,6 +10,7 @@ namespace LXGaming.Health {
 
         private readonly byte[] _buffer = new byte[1];
         private readonly ManualResetEvent _event = new ManualResetEvent(false);
+        private int _length;
         private bool _disposed;
 
         protected HealthClient(ILogger<HealthClient> logger, EndPoint endPoint) : base(logger, endPoint) {
@@ -27,7 +28,7 @@ namespace LXGaming.Health {
 
         public override bool GetStatus() {
             _event.WaitOne();
-            return _buffer.Length == 1 && _buffer[0] == Healthy;
+            return _length == 1 && _buffer[0] == Healthy;
         }
 
         private void ConnectCallback(IAsyncResult result) {
@@ -59,7 +60,7 @@ namespace LXGaming.Health {
             }
 
             try {
-                client.EndReceive(result);
+                _length = client.EndReceive(result);
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while ending receive from {Server}", client.RemoteEndPoint.ToString());
             }
