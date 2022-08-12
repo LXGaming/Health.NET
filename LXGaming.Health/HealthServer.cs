@@ -8,6 +8,7 @@ namespace LXGaming.Health {
 
     public abstract class HealthServer : Health {
 
+        private bool _closed;
         private bool _disposed;
 
         protected HealthServer(ILogger<HealthServer> logger, EndPoint endPoint) : base(logger, endPoint) {
@@ -21,10 +22,11 @@ namespace LXGaming.Health {
 
         public override void Stop() {
             Socket.Close();
+            _closed = true;
         }
 
         private void AcceptCallback(IAsyncResult result) {
-            if (_disposed) {
+            if (_closed || _disposed) {
                 return;
             }
 
