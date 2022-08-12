@@ -8,6 +8,8 @@ namespace LXGaming.Health {
 
     public abstract class HealthServer : Health {
 
+        private bool _disposed;
+
         protected HealthServer(ILogger<HealthServer> logger, EndPoint endPoint) : base(logger, endPoint) {
         }
 
@@ -22,6 +24,10 @@ namespace LXGaming.Health {
         }
 
         private void AcceptCallback(IAsyncResult result) {
+            if (_disposed) {
+                return;
+            }
+
             var server = (Socket) result.AsyncState;
             if (server == null) {
                 Logger.LogError("Server is unavailable");
@@ -97,6 +103,18 @@ namespace LXGaming.Health {
 
                 size += byteCount;
             }
+        }
+
+        protected override void Dispose(bool disposing) {
+            if (!_disposed) {
+                if (disposing) {
+                    // no-op
+                }
+
+                _disposed = true;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }
