@@ -10,6 +10,7 @@
         <Title>Health</Title>
         <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/LXGaming/Health.NET</PackageProjectUrl>
+        <PackageIconUrl>https://repo.lxgaming.me/assets/fluency/heart-with-pulse.png</PackageIconUrl>
         <RepositoryType>git</RepositoryType>
         <RepositoryUrl>https://github.com/LXGaming/Health.NET</RepositoryUrl>
     </PropertyGroup>
