@@ -1,4 +1,4 @@
-﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+﻿FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 ARG TARGETPLATFORM
 WORKDIR /src
 
@@ -21,9 +21,9 @@ RUN case "$TARGETPLATFORM" in \
         linux/arm64) RUNTIME=linux-arm64 ;; \
         *) echo "Unsupported Platform: $TARGETPLATFORM"; exit 1 ;; \
     esac && \
-    dotnet publish --configuration Release --no-restore --output /app --runtime $RUNTIME --self-contained true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:SuppressTrimAnalysisWarnings=true
+    dotnet publish --configuration Release --no-restore --output /app --runtime $RUNTIME --self-contained true /p:PublishSingleFile=true /p:PublishTrimmed=true /p:SuppressTrimAnalysisWarnings=true /p:TrimMode=partial
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0
 WORKDIR /app
 COPY --from=build /app ./
 ENTRYPOINT ["./LXGaming.Health.Client"]
