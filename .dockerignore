@@ -12,6 +12,4 @@
 **/.gitattributes
 **/.gitignore
 **/Dockerfile*
-**/LICENSE
-**/*.md
 **/*.ps1

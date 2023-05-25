@@ -2,6 +2,7 @@
 ARG TARGETPLATFORM
 WORKDIR /src
 
+COPY icon.png LICENSE README.md ./
 COPY *.sln .
 COPY *.props .
 COPY LXGaming.Health/*.csproj ./LXGaming.Health/
