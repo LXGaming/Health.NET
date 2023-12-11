@@ -5,10 +5,13 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <IsPublishable Condition="'$(CI)' == 'true'">false</IsPublishable>
     <Authors>Alex Thomson</Authors>
     <Product>Health</Product>
     <Copyright>Copyright © Alex Thomson</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(CI)' == 'true' or '$(DOTNET_RUNNING_IN_CONTAINER)' == 'true'">
+    <IsPublishable>false</IsPublishable>
   </PropertyGroup>
 
   <ItemGroup>
