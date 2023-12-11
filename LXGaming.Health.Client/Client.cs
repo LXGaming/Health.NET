@@ -3,8 +3,4 @@ using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health.Client;
 
-public class Client : HealthClient {
-
-    public Client(ILogger<Client> logger, EndPoint endPoint) : base(logger, endPoint) {
-    }
-}
+public class Client(ILogger<Client> logger, EndPoint endPoint) : HealthClient(logger, endPoint);
