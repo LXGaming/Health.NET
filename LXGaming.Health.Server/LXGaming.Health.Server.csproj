@@ -1,23 +1,23 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net7.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <IsPublishable Condition="'$(CI)' == 'true'">false</IsPublishable>
-        <Authors>Alex Thomson</Authors>
-        <Product>Health</Product>
-        <Copyright>Copyright © Alex Thomson</Copyright>
-    </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPublishable Condition="'$(CI)' == 'true'">false</IsPublishable>
+    <Authors>Alex Thomson</Authors>
+    <Product>Health</Product>
+    <Copyright>Copyright © Alex Thomson</Copyright>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <PackageReference Include="CommandLineParser" Version="2.9.1" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="CommandLineParser" Version="2.9.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+  </ItemGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\LXGaming.Health\LXGaming.Health.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LXGaming.Health\LXGaming.Health.csproj" />
+  </ItemGroup>
 
 </Project>
