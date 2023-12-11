@@ -6,12 +6,18 @@ namespace LXGaming.Health.Client;
 
 public static class Program {
 
-    private static readonly ILogger<Client> Logger = LoggerFactory.Create(builder => {
+    private static readonly ILoggerFactory Factory = LoggerFactory.Create(builder => {
         builder.AddConsole();
-    }).CreateLogger<Client>();
+    });
+
+    private static readonly ILogger<Client> Logger = Factory.CreateLogger<Client>();
 
     public static int Main(string[] args) {
-        return Parser.Default.ParseArguments<Options>(args).MapResult(Success, Failure);
+        try {
+            return Parser.Default.ParseArguments<Options>(args).MapResult(Success, Failure);
+        } finally {
+            Factory.Dispose();
+        }
     }
 
     private static int Success(Options options) {
