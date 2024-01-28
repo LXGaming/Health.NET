@@ -12,6 +12,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(CI)' == 'true' or '$(DOTNET_RUNNING_IN_CONTAINER)' == 'true'">
+    <JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
     <PublishSelfContained>true</PublishSelfContained>
     <PublishSingleFile>true</PublishSingleFile>
     <PublishTrimmed>true</PublishTrimmed>
