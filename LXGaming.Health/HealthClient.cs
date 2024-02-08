@@ -11,7 +11,7 @@ namespace LXGaming.Health {
     public abstract class HealthClient : Health {
 
         private readonly byte[] _buffer = new byte[1 + MaximumStringSize];
-        private readonly ManualResetEvent _event = new ManualResetEvent(false);
+        private readonly ManualResetEventSlim _state = new ManualResetEventSlim(false);
         private int _length;
         private bool _disposed;
 
@@ -19,7 +19,7 @@ namespace LXGaming.Health {
         }
 
         public override void Start() {
-            _event.Reset();
+            _state.Reset();
             Socket.BeginConnect(EndPoint, ConnectCallback, Socket);
         }
 
@@ -32,7 +32,7 @@ namespace LXGaming.Health {
         }
 
         public override Status GetStatus() {
-            _event.WaitOne();
+            _state.Wait();
             return _length switch {
                 0 => new Status(false, null),
                 1 => new Status(_buffer[0] == Healthy, null),
@@ -93,14 +93,14 @@ namespace LXGaming.Health {
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while ending disconnect from {Server}", (client.RemoteEndPoint ?? EndPoint).ToString());
             } finally {
-                _event.Set();
+                _state.Set();
             }
         }
 
         protected override void Dispose(bool disposing) {
             if (!_disposed) {
                 if (disposing) {
-                    _event.Dispose();
+                    _state.Dispose();
                 }
 
                 _disposed = true;
