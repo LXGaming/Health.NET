@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
+using LXGaming.Health.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
@@ -26,7 +27,7 @@ namespace LXGaming.Health {
 
         public abstract void Stop();
 
-        public abstract (bool, string) GetStatus();
+        public abstract Status GetStatus();
 
         public void Dispose() {
             Dispose(true);
