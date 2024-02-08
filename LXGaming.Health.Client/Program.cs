@@ -14,13 +14,13 @@ public static class Program {
 
     public static int Main(string[] args) {
         try {
-            return Parser.Default.ParseArguments<Options>(args).MapResult(Success, Failure);
+            return Parser.Default.ParseArguments<Options>(args).MapResult(OnSuccess, OnFailure);
         } finally {
             Factory.Dispose();
         }
     }
 
-    private static int Success(Options options) {
+    private static int OnSuccess(Options options) {
         EndPoint endPoint;
         try {
             var address = IPAddress.Parse(options.Address);
@@ -59,7 +59,7 @@ public static class Program {
         }
     }
 
-    private static int Failure(IEnumerable<Error> errors) {
+    private static int OnFailure(IEnumerable<Error> errors) {
         return 3;
     }
 }
