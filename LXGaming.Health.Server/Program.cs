@@ -1,5 +1,4 @@
 ﻿using System.Net;
-using CommandLine;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health.Server;
@@ -13,20 +12,18 @@ public static class Program {
     private static readonly ILogger<Server> Logger = Factory.CreateLogger<Server>();
 
     public static int Main(string[] args) {
-        try {
-            return Parser.Default.ParseArguments<Options>(args).MapResult(OnSuccess, OnFailure);
-        } finally {
-            Factory.Dispose();
+        string address;
+        if (args.Length == 0) {
+            address = "127.0.0.1:4325";
+        } else if (args.Length == 1) {
+            address = args[0];
+        } else {
+            Logger.LogError("Usage: LXGaming.Health.Server [Address]");
+            return 1;
         }
-    }
 
-    private static int OnSuccess(Options options) {
-        EndPoint endPoint;
-        try {
-            var address = IPAddress.Parse(options.Address);
-            endPoint = new IPEndPoint(address, options.Port);
-        } catch (Exception ex) {
-            Logger.LogError(ex, "Encountered an error while parsing {Address}:{Port}", options.Address, options.Port);
+        if (!IPEndPoint.TryParse(address, out var endPoint)) {
+            Logger.LogError("Failed to parse {Address}", address);
             return 1;
         }
 
@@ -56,9 +53,5 @@ public static class Program {
                 server.Dispose();
             }
         }
-    }
-
-    private static int OnFailure(IEnumerable<Error> errors) {
-        return 1;
     }
 }
