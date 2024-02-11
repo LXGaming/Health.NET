@@ -64,12 +64,13 @@ namespace LXGaming.Health {
                 status = new Status(false, null);
             }
 
-            CalculateEncodingLength(Encoding.UTF8, status.Message, MaximumStringSize, out var characterCount, out var messageSize);
+            var chars = status.Message != null ? status.Message.ToCharArray() : Array.Empty<char>();
+            CalculateEncodingLength(Encoding.UTF8, chars, MaximumStringSize, out var characterCount, out var messageSize);
 
             var buffer = new byte[1 + messageSize];
             buffer[0] = status.State ? Healthy : Unhealthy;
-            if (status.Message != null) {
-                Encoding.UTF8.GetBytes(status.Message, 0, characterCount, buffer, 1);
+            if (chars.Length > 0) {
+                Encoding.UTF8.GetBytes(chars, 0, characterCount, buffer, 1);
             }
 
             try {
@@ -100,14 +101,25 @@ namespace LXGaming.Health {
             }
         }
 
-        private static void CalculateEncodingLength(Encoding encoding, string @string, int maximumSize, out int index, out int size) {
+        private static void CalculateEncodingLength(Encoding encoding, char[] chars, int maximumSize, out int index, out int size) {
+            if (encoding == null) {
+                throw new ArgumentNullException(nameof(encoding));
+            }
+
+            if (chars == null) {
+                throw new ArgumentNullException(nameof(chars));
+            }
+
+            index = 0;
             size = 0;
-            for (index = 0; index < @string?.Length; index++) {
-                var byteCount = encoding.GetByteCount(@string, index, 1);
+
+            while (index < chars.Length) {
+                var byteCount = encoding.GetByteCount(chars, index, 1);
                 if (size + byteCount > maximumSize) {
                     return;
                 }
 
+                index += 1;
                 size += byteCount;
             }
         }

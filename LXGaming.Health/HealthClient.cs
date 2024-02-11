@@ -33,11 +33,14 @@ namespace LXGaming.Health {
 
         public override Status GetStatus() {
             _state.Wait();
-            return _length switch {
-                0 => new Status(false, null),
-                1 => new Status(_buffer[0] == Healthy, null),
-                _ => new Status(_buffer[0] == Healthy, Encoding.UTF8.GetString(_buffer, 1, _length - 1))
-            };
+            switch (_length) {
+                case 0:
+                    return new Status(false, null);
+                case 1:
+                    return new Status(_buffer[0] == Healthy, null);
+                default:
+                    return new Status(_buffer[0] == Healthy, Encoding.UTF8.GetString(_buffer, 1, _length - 1));
+            }
         }
 
         private void ConnectCallback(IAsyncResult result) {
