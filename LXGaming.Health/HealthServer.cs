@@ -39,6 +39,10 @@ namespace LXGaming.Health {
 
             try {
                 server.BeginAccept(AcceptCallback, server);
+            } catch (SocketException ex) when (ex.SocketErrorCode == SocketError.OperationAborted) {
+                return;
+            } catch (ObjectDisposedException) {
+                return;
             } catch (Exception ex) {
                 Logger.LogError(ex, "Encountered an error while beginning accept");
                 return;
