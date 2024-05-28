@@ -6,7 +6,7 @@
     <IsPublishable>false</IsPublishable>
     <Authors>Alex Thomson</Authors>
     <Product>Health</Product>
-    <Copyright>Copyright © Alex Thomson</Copyright>
+    <Copyright>© Alex Thomson. All rights reserved.</Copyright>
     <Title>Health</Title>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LXGaming/Health.NET</PackageProjectUrl>
