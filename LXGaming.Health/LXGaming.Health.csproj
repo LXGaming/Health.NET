@@ -14,7 +14,7 @@
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LXGaming/Health.NET</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReadmeFile>PACKAGE.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/LXGaming/Health.NET</RepositoryUrl>
   </PropertyGroup>
@@ -22,7 +22,7 @@
   <ItemGroup>
     <None Include="..\icon.png" Pack="true" PackagePath="\" Visible="false" />
     <None Include="..\LICENSE" Pack="true" PackagePath="\" Visible="false" />
-    <None Include="..\README.md" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="..\PACKAGE.md" Pack="true" PackagePath="\" Visible="false" />
   </ItemGroup>
 
   <ItemGroup>
