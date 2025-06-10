@@ -10,6 +10,7 @@
     <Product>Health</Product>
     <Copyright>© Alex Thomson. All rights reserved.</Copyright>
     <Title>Health</Title>
+    <Description>Health Library for .NET</Description>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/LXGaming/Health.NET</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
