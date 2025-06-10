@@ -101,7 +101,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         context: .
-        file: ./Dockerfile.alpine
+        file: ./alpine.Dockerfile
         platforms: linux/amd64,linux/arm64
         push: ${{ github.event_name != 'pull_request' }}
         labels: ${{ steps.metadata.outputs.labels }}

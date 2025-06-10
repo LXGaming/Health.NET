@@ -1,7 +1,8 @@
-﻿# Directories
+# Directories
 **/.git/
 **/.github/
 **/.idea/
+**/.vs/
 **/bin/
 **/logs/
 **/obj/
@@ -11,5 +12,6 @@
 **/.dockerignore
 **/.gitattributes
 **/.gitignore
+**/docker-compose.yml
 **/Dockerfile*
-**/*.ps1
+**/*Dockerfile
