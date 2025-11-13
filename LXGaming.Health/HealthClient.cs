@@ -44,7 +44,7 @@ namespace LXGaming.Health {
         }
 
         private void ConnectCallback(IAsyncResult result) {
-            var client = (Socket) result.AsyncState;
+            var client = (Socket?) result.AsyncState;
             if (client == null) {
                 Logger.LogError("Client is unavailable");
                 return;
@@ -65,7 +65,7 @@ namespace LXGaming.Health {
         }
 
         private void ReceiveCallback(IAsyncResult result) {
-            var client = (Socket) result.AsyncState;
+            var client = (Socket?) result.AsyncState;
             if (client == null) {
                 Logger.LogError("Client is unavailable");
                 return;
@@ -85,7 +85,7 @@ namespace LXGaming.Health {
         }
 
         private void DisconnectCallback(IAsyncResult result) {
-            var client = (Socket) result.AsyncState;
+            var client = (Socket?) result.AsyncState;
             if (client == null) {
                 Logger.LogError("Client is unavailable");
                 return;

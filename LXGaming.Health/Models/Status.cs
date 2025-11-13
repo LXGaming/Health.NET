@@ -4,9 +4,9 @@
 
         public bool State { get; }
 
-        public string Message { get; }
+        public string? Message { get; }
 
-        public Status(bool state, string message) {
+        public Status(bool state, string? message) {
             State = state;
             Message = message;
         }
