@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Net;
 using System.Net.Sockets;
-using LXGaming.Health.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
 
     public abstract class Health : IDisposable {
 
-        public const byte Healthy = 0;
-        public const byte Unhealthy = 1;
         protected const int MaximumStringSize = 4096; // 4 KiB
 
         protected readonly ILogger<Health> Logger;
@@ -27,7 +24,7 @@ namespace LXGaming.Health {
 
         public abstract void Stop();
 
-        public abstract Status GetStatus();
+        public abstract HealthResult GetHealth();
 
         public void Dispose() {
             Dispose(true);

@@ -3,7 +3,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading;
-using LXGaming.Health.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
@@ -31,12 +30,12 @@ namespace LXGaming.Health {
             Socket.Close();
         }
 
-        public override Status GetStatus() {
+        public override HealthResult GetHealth() {
             _state.Wait();
             return _length switch {
-                0 => new Status(false, null),
-                1 => new Status(_buffer[0] == Healthy, null),
-                _ => new Status(_buffer[0] == Healthy, Encoding.UTF8.GetString(_buffer, 1, _length - 1))
+                0 => new HealthResult(HealthStatus.Unhealthy),
+                1 => new HealthResult((HealthStatus) _buffer[0]),
+                _ => new HealthResult((HealthStatus) _buffer[0], Encoding.UTF8.GetString(_buffer, 1, _length - 1))
             };
         }
 

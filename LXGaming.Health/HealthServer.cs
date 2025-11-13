@@ -2,7 +2,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using LXGaming.Health.Models;
 using Microsoft.Extensions.Logging;
 
 namespace LXGaming.Health {
@@ -56,19 +55,19 @@ namespace LXGaming.Health {
                 return;
             }
 
-            Status status;
+            HealthResult health;
             try {
-                status = GetStatus();
+                health = GetHealth();
             } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while getting status");
-                status = new Status(false, null);
+                Logger.LogError(ex, "Encountered an error while getting health");
+                health = new HealthResult(HealthStatus.Unhealthy);
             }
 
-            var chars = status.Message != null ? status.Message.ToCharArray() : Array.Empty<char>();
+            var chars = health.Message != null ? health.Message.ToCharArray() : Array.Empty<char>();
             CalculateEncodingLength(Encoding.UTF8, chars, MaximumStringSize, out var characterCount, out var messageSize);
 
             var buffer = new byte[1 + messageSize];
-            buffer[0] = status.State ? Healthy : Unhealthy;
+            buffer[0] = (byte) health.Status;
             if (chars.Length > 0) {
                 Encoding.UTF8.GetBytes(chars, 0, characterCount, buffer, 1);
             }

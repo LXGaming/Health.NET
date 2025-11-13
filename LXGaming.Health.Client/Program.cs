@@ -46,16 +46,16 @@ try {
 logger.LogDebug("Connected to {Endpoint}", endPoint.ToString());
 
 try {
-    var status = client.GetStatus();
+    var health = client.GetHealth();
     if (logger.IsEnabled(LogLevel.Debug)) {
-        logger.LogDebug("{Status}", status.ToString());
+        logger.LogDebug("{Status}", health.ToString());
     } else {
-        Console.Write(status.Message);
+        Console.Write(health.Message);
     }
 
-    return status.State ? Health.Healthy : Health.Unhealthy;
+    return (byte) health.Status;
 } catch (Exception ex) {
-    logger.LogError(ex, "Encountered an error while getting status");
+    logger.LogError(ex, "Encountered an error while getting health");
     return 3;
 } finally {
     try {
