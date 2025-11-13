@@ -1,58 +1,68 @@
 ﻿using System.Net;
+using LXGaming.Health;
+using LXGaming.Health.Client;
 using Microsoft.Extensions.Logging;
 
-namespace LXGaming.Health.Client;
+var loggerFactory = LoggerFactory.Create(builder => {
+    builder.SetMinimumLevel(LogLevel.Trace);
+    builder.AddConsole();
+});
 
-public static class Program {
+var logger = loggerFactory.CreateLogger<Client>();
 
-    private static readonly ILoggerFactory Factory = LoggerFactory.Create(builder => {
-        builder.AddConsole();
-    });
+string address;
+if (args.Length == 0) {
+    address = "127.0.0.1:4325";
+} else if (args.Length == 1) {
+    address = args[0];
+} else {
+    logger.LogError("Usage: LXGaming.Health.Client [Address]");
+    return 3;
+}
 
-    private static readonly ILogger<Client> Logger = Factory.CreateLogger<Client>();
+if (!IPEndPoint.TryParse(address, out var endPoint)) {
+    logger.LogError("Failed to parse {Address} as an IPEndPoint", address);
+    return 3;
+}
 
-    public static int Main(string[] args) {
-        string address;
-        if (args.Length == 0) {
-            address = "127.0.0.1:4325";
-        } else if (args.Length == 1) {
-            address = args[0];
-        } else {
-            Logger.LogError("Usage: LXGaming.Health.Client [Address]");
-            return 1;
-        }
+logger.LogDebug("Connecting to {Endpoint}...", endPoint.ToString());
 
-        if (!IPEndPoint.TryParse(address, out var endPoint)) {
-            Logger.LogError("Failed to parse {Address}", address);
-            return 1;
-        }
+HealthClient client;
+try {
+    client = new Client(logger, endPoint);
+} catch (Exception ex) {
+    logger.LogError(ex, "Encountered an error while creating client");
+    return 3;
+}
 
-        HealthClient client;
-        try {
-            client = new Client(Logger, endPoint);
-            client.Start();
-        } catch (Exception ex) {
-            Logger.LogError(ex, "Encountered an error while starting client");
-            return 3;
-        }
+try {
+    client.Start();
+} catch (Exception ex) {
+    logger.LogError(ex, "Encountered an error while starting client");
+    client.Dispose();
+    return 3;
+}
 
-        // Logger.LogInformation("Connected to {Endpoint}", endPoint);
+logger.LogDebug("Connected to {Endpoint}", endPoint.ToString());
 
-        try {
-            var status = client.GetStatus();
-            Console.Write(status.Message);
-            return status.State ? Health.Healthy : Health.Unhealthy;
-        } catch (Exception ex) {
-            Logger.LogError(ex, "Encountered an error while getting status");
-            return 3;
-        } finally {
-            try {
-                client.Stop();
-            } catch (Exception ex) {
-                Logger.LogError(ex, "Encountered an error while shutting down client");
-            } finally {
-                client.Dispose();
-            }
-        }
+try {
+    var status = client.GetStatus();
+    if (logger.IsEnabled(LogLevel.Debug)) {
+        logger.LogDebug("{Status}", status.ToString());
+    } else {
+        Console.Write(status.Message);
+    }
+
+    return status.State ? Health.Healthy : Health.Unhealthy;
+} catch (Exception ex) {
+    logger.LogError(ex, "Encountered an error while getting status");
+    return 3;
+} finally {
+    try {
+        client.Stop();
+    } catch (Exception ex) {
+        logger.LogError(ex, "Encountered an error while shutting down client");
+    } finally {
+        client.Dispose();
     }
 }
