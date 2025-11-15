@@ -3,7 +3,7 @@ using LXGaming.Health;
 using LXGaming.Health.Client;
 using Microsoft.Extensions.Logging;
 
-var loggerFactory = LoggerFactory.Create(builder => {
+using var loggerFactory = LoggerFactory.Create(builder => {
     builder.SetMinimumLevel(LogLevel.Trace);
     builder.AddConsole();
 });
