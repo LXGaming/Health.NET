@@ -1,5 +1,5 @@
 ﻿# syntax=docker/dockerfile:1
-FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+FROM --platform=$BUILDPLATFORM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
 ARG TARGETARCH
 WORKDIR /src
 
@@ -14,7 +14,7 @@ COPY LXGaming.Health/ LXGaming.Health/
 COPY LXGaming.Health.Client/ LXGaming.Health.Client/
 RUN dotnet publish LXGaming.Health.Client --arch $TARGETARCH --configuration Release --no-restore --output /app
 
-FROM mcr.microsoft.com/dotnet/runtime-deps:8.0-alpine
+FROM mcr.microsoft.com/dotnet/runtime-deps:10.0-alpine
 WORKDIR /app
 COPY --from=build /app ./
 USER $APP_UID
