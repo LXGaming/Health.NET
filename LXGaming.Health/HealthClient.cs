@@ -98,11 +98,11 @@ namespace LXGaming.Health {
 
         protected override void Dispose(bool disposing) {
             if (!_disposed) {
+                _disposed = true;
+
                 if (disposing) {
                     _state.Dispose();
                 }
-
-                _disposed = true;
             }
 
             base.Dispose(disposing);

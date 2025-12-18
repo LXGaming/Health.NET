@@ -36,11 +36,11 @@ namespace LXGaming.Health {
                 return;
             }
 
+            _disposed = true;
+
             if (disposing) {
                 Socket.Dispose();
             }
-
-            _disposed = true;
         }
     }
 }
