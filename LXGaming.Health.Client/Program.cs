@@ -1,4 +1,4 @@
-﻿using System.Net;
+using System.Net;
 using LXGaming.Health;
 using LXGaming.Health.Client;
 using Microsoft.Extensions.Logging;

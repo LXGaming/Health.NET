@@ -1,4 +1,4 @@
-﻿namespace LXGaming.Health {
+namespace LXGaming.Health {
 
     public enum HealthStatus : byte {
 

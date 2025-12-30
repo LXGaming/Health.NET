@@ -1,4 +1,4 @@
-﻿namespace LXGaming.Health {
+namespace LXGaming.Health {
 
     public readonly struct HealthResult {
 
